@@ -1,0 +1,86 @@
+plugins {
+    alias(libs.plugins.android.application)
+    id("stringfog")
+}
+// 导入RandomKeyGenerator类，如果不使用RandomKeyGenerator，可以删除此行
+import com.github.megatronking.stringfog.plugin.kg.RandomKeyGenerator
+import com.github.megatronking.stringfog.plugin.StringFogMode
+
+stringfog {
+    enable true
+    debug false
+    // 指定加解密的具体实现类，可以用默认实现的xor库或者aes-cbc库，也可以自己定制实现，记得配置dependencies
+    implementation 'com.github.megatronking.stringfog.xor.StringFogImpl'
+    // 指定需加密的代码包路径，可配置多个，未指定将默认全部加密
+//    fogPackages = ["com.zxc.fukone.PosedModel"]
+    // 可选（3.0版本新增）：指定密钥生成器，默认使用长度8的随机密钥（每个字符串均有不同随机密钥）,
+    // 也可以指定一个固定的密钥：HardCodeKeyGenerator("This is a key")
+    kg new RandomKeyGenerator()
+    // 可选（4.0版本新增）：用于控制字符串加密后在字节码中的存在形式, 默认为base64，
+    // 也可以使用text或者bytes
+    mode StringFogMode.bytes
+}
+
+android {
+    namespace 'com.zxc.gamespeed'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId "com.zxc.gamespeed"
+        minSdk 24
+        targetSdk 34
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        externalNativeBuild {
+//            cmake {
+//                abiFilters 'arm64-v8a', 'armeabi-v7a'
+////                cppFlags "-std=c++14 -fexceptions -fvisibility=hidden"
+//                // -mllvm -bcf_prob=10 -mllvm -bcf_loop=3 -mllvm -aesSeed=0xada46ab5da824b96a18409c49dc91dc3
+////                cppFlags "-mllvm -fla -mllvm -split -mllvm -split_num=10 -mllvm -sub -mllvm -sub_loop=10 -mllvm -sobf"
+//            }
+        }
+        ndk {
+            //noinspection ChromeOsAbiSupport
+            abiFilters 'armeabi-v7a', 'arm64-v8a'
+        }
+    }
+
+    buildTypes {
+        release {
+//            minifyEnabled true
+//            shrinkResources true
+//            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    externalNativeBuild {
+        cmake {
+            path file('src/main/cpp/CMakeLists.txt')
+            version '3.22.1'
+        }
+    }
+    buildFeatures {
+        viewBinding true
+        aidl true
+    }
+    ndkVersion '21.1.6352462'
+
+}
+
+dependencies {
+
+    implementation libs.appcompat
+    implementation libs.material
+    implementation libs.constraintlayout
+    testImplementation libs.junit
+    androidTestImplementation libs.ext.junit
+    androidTestImplementation libs.espresso.core
+    compileOnly libs.xposed
+    implementation(libs.xor)
+}

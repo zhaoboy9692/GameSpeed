@@ -1,0 +1,29 @@
+[versions]
+agp = "8.4.0"
+fastjson = "2.0.51"
+javaWebsocket = "1.5.6"
+junit = "4.13.2"
+junitVersion = "1.2.1"
+espressoCore = "3.6.1"
+appcompat = "1.7.0"
+material = "1.12.0"
+constraintlayout = "2.1.4"
+gradlePlugin = "5.1.0"
+xor = "5.0.0"
+xposed = "82"
+[libraries]
+fastjson = { module = "com.alibaba:fastjson", version.ref = "fastjson" }
+gradle-plugin = { module = "com.github.megatronking.stringfog:gradle-plugin", version.ref = "gradlePlugin" }
+java-websocket = { module = "org.java-websocket:Java-WebSocket", version.ref = "javaWebsocket" }
+xor = { module = "com.github.megatronking.stringfog:xor", version.ref = "xor" }
+xposed = { module = "de.robv.android.xposed:api", version.ref = "xposed" }
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
+espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
+appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+

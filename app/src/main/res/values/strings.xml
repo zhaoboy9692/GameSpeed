@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">GameSpeed</string>
+    <string name="speedAdd">加速234234</string>
+    <string name="speedSub">减速-</string>
+    <string name="stop_speed">关闭变速</string>
+    <string name="start_speed">开始变速</string>
+</resources>
